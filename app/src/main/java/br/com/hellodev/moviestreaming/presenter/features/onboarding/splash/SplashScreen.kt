@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import br.com.hellodev.moviestreaming.R
-import br.com.hellodev.moviestreaming.presenter.components.loading.LoadingUI
+import br.com.hellodev.moviestreaming.presenter.components.loading.CircularLoadingUI
 import br.com.hellodev.moviestreaming.presenter.theme.MovieStreamingTheme
 
 @Composable
@@ -39,7 +39,7 @@ fun SplashContent() {
                 contentDescription = null
             )
 
-            LoadingUI()
+            CircularLoadingUI()
         }
     }
 }

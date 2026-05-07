@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import br.com.hellodev.moviestreaming.presenter.theme.MovieStreamingTheme
@@ -18,23 +19,24 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 
 @Composable
-fun LoadingUI(
+fun BouncingDotsLoadingUI(
     modifier: Modifier = Modifier
 ) {
-    val composition by rememberLottieComposition(LottieCompositionSpec.Asset("loading.json"))
+    val composition by rememberLottieComposition(LottieCompositionSpec.Asset("button_loading.json"))
 
     LottieAnimation(
         composition = composition,
         modifier = modifier
             .size(120.dp),
         iterations = LottieConstants.IterateForever,
-        maintainOriginalImageBounds = true
+        maintainOriginalImageBounds = true,
+        contentScale = ContentScale.Fit
     )
 }
 
 @PreviewLightDark
 @Composable
-private fun LoadingUIPreview() {
+private fun BouncingDotsLoadingUIPreview() {
     MovieStreamingTheme {
         Column(
             modifier = Modifier
@@ -43,7 +45,7 @@ private fun LoadingUIPreview() {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            LoadingUI()
+            BouncingDotsLoadingUI()
         }
     }
 }
