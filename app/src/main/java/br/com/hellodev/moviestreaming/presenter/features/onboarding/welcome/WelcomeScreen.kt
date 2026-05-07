@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import br.com.hellodev.moviestreaming.R
+import br.com.hellodev.moviestreaming.presenter.components.button.PrimaryButtonUI
 import br.com.hellodev.moviestreaming.presenter.components.slide.WelcomeSlideUI
 import br.com.hellodev.moviestreaming.presenter.theme.MovieStreamingTheme
 
@@ -80,6 +81,14 @@ fun WelcomeContent() {
                             .weight(1f),
                         slideItems = slideItems,
                         pagerState = pagerState
+                    )
+
+                    PrimaryButtonUI(
+                        text = stringResource(R.string.get_started),
+                        onClick = { },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
                     )
                 }
             }
