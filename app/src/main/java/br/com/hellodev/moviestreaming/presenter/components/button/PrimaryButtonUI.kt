@@ -58,10 +58,7 @@ fun PrimaryButtonUI(
         ),
     ) {
         if (isLoading) {
-            BouncingDotsLoadingUI(
-                modifier = modifier
-                    .size(48.dp)
-            )
+            BouncingDotsLoadingUI()
         } else {
             Row(
                 modifier = Modifier

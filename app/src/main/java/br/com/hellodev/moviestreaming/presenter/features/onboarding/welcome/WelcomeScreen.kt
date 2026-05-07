@@ -87,7 +87,6 @@ fun WelcomeContent() {
                         text = stringResource(R.string.get_started),
                         onClick = { },
                         modifier = Modifier
-                            .fillMaxWidth()
                             .padding(horizontal = 16.dp)
                     )
                 }
