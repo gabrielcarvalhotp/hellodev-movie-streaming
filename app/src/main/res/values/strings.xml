@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Movie Streaming</string>
+
+
+    <string name="welcome_title_1">Bem-vindo</string>
+    <string name="welcome_description_1">
+        O melhor aplicativo de streaming de filmes do século para tornar seus dias incríveis!
+    </string>
+
+    <string name="welcome_title_2">Descubra Novos Filmes</string>
+    <string name="welcome_description_2">
+        Explore milhares de filmes e séries em um só lugar, com recomendações feitas para você.
+    </string>
+
+    <string name="welcome_title_3">Assista Onde Quiser</string>
+    <string name="welcome_description_3">
+        Curta seus conteúdos favoritos no celular, tablet ou TV, quando e onde quiser.
+    </string>
+
 </resources>
