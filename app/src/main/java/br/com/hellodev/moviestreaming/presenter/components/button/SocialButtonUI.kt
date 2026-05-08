@@ -23,16 +23,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import br.com.hellodev.moviestreaming.R
 import br.com.hellodev.moviestreaming.presenter.components.loading.BouncingDotsLoadingUI
 import br.com.hellodev.moviestreaming.presenter.theme.MovieStreamingTheme
-import br.com.hellodev.moviestreaming.presenter.theme.UrbanistFamily
 
 @Composable
 fun SocialButtonUI(
@@ -76,14 +71,8 @@ fun SocialButtonUI(
 
                     Text(
                         text = text,
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                            lineHeight = 22.4.sp,
-                            fontFamily = UrbanistFamily,
-                            fontWeight = FontWeight.Bold,
-                            color = MovieStreamingTheme.colorScheme.textColor,
-                            textAlign = TextAlign.Center,
-                            letterSpacing = 0.2.sp
+                        style = MovieStreamingTheme.typography.button.copy(
+                            color = MovieStreamingTheme.colorScheme.textColor
                         )
                     )
                 }

@@ -15,16 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import br.com.hellodev.moviestreaming.R
 import br.com.hellodev.moviestreaming.presenter.components.indicator.SlideIndicator
 import br.com.hellodev.moviestreaming.presenter.theme.MovieStreamingTheme
-import br.com.hellodev.moviestreaming.presenter.theme.UrbanistFamily
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -53,13 +49,8 @@ fun WelcomeSlideUI(
                 ) {
                     Text(
                         text = slideItems[pagerState.currentPage].first,
-                        style = TextStyle(
-                            fontSize = 40.sp,
-                            lineHeight = 48.sp,
-                            fontFamily = UrbanistFamily,
-                            fontWeight = FontWeight.Bold,
-                            color = MovieStreamingTheme.colorScheme.whiteColor,
-                            textAlign = TextAlign.Center
+                        style = MovieStreamingTheme.typography.title.copy(
+                            color = MovieStreamingTheme.colorScheme.whiteColor
                         )
                     )
 
@@ -67,14 +58,9 @@ fun WelcomeSlideUI(
 
                     Text(
                         text = slideItems[pagerState.currentPage].second,
-                        style = TextStyle(
-                            fontSize = 18.sp,
-                            lineHeight = 25.2.sp,
-                            fontFamily = UrbanistFamily,
-                            fontWeight = FontWeight.Medium,
+                        style = MovieStreamingTheme.typography.body.copy(
                             color = MovieStreamingTheme.colorScheme.whiteColor,
-                            textAlign = TextAlign.Center,
-                            letterSpacing = 0.2.sp
+                            textAlign = TextAlign.Center
                         )
                     )
                 }
