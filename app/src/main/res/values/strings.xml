@@ -18,4 +18,13 @@
     </string>
     <string name="get_started">Começar</string>
 
+    <string name="label_title_authentication_screen">Entrar com</string>
+    <string name="label_sign_with_facebook_authentication_screen">Continuar com Facebook</string>
+    <string name="label_sign_with_google_authentication_screen">Continuar com Google</string>
+    <string name="label_sign_with_github_authentication_screen">Continuar com Github</string>
+    <string name="label_or_authentication_screen">ou continue com</string>
+    <string name="label_sign_with_password_authentication_screen">Entrar com senha</string>
+    <string name="label_sign_up_account_authentication_screen">Não tem uma conta?</string>
+    <string name="label_sign_up_authentication_screen">Criar conta</string>
+
 </resources>
