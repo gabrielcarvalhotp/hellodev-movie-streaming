@@ -21,7 +21,7 @@ import br.com.hellodev.moviestreaming.presenter.theme.PrimaryBackgroundColorDark
 import br.com.hellodev.moviestreaming.presenter.theme.MovieStreamingTheme
 
 @Composable
-fun SlideIndicator(
+fun SlideIndicatorUI(
     modifier: Modifier = Modifier,
     totalIndicators: Int,
     currentIndicator: Int
@@ -57,7 +57,7 @@ fun SlideIndicator(
 
 @Preview(showBackground = true)
 @Composable
-private fun SlideIndicatorPreview() {
+private fun SlideIndicatorUIPreview() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -65,6 +65,6 @@ private fun SlideIndicatorPreview() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        SlideIndicator(totalIndicators = 3, currentIndicator = 2)
+        SlideIndicatorUI(totalIndicators = 3, currentIndicator = 2)
     }
 }

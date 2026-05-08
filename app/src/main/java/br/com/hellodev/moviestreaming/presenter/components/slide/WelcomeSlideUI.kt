@@ -19,7 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.com.hellodev.moviestreaming.R
-import br.com.hellodev.moviestreaming.presenter.components.indicator.SlideIndicator
+import br.com.hellodev.moviestreaming.presenter.components.indicator.SlideIndicatorUI
 import br.com.hellodev.moviestreaming.presenter.theme.MovieStreamingTheme
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -67,7 +67,7 @@ fun WelcomeSlideUI(
             }
         )
 
-        SlideIndicator(
+        SlideIndicatorUI(
             modifier = Modifier
                 .padding(bottom = 24.dp),
             totalIndicators = slideItems.size,
