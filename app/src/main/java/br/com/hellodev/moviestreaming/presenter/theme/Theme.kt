@@ -9,6 +9,7 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.staticCompositionLocalOf
 
 private val LightColorScheme = MyColorScheme(
     defaultColor = DefaultColor,
@@ -91,12 +92,17 @@ private val DarkColorScheme = MyColorScheme(
 )
 
 private val LocalColorScheme = compositionLocalOf { LightColorScheme }
+val LocalTypography = staticCompositionLocalOf<MyTypography> { error("No typography provided") }
 
 object MovieStreamingTheme {
     val colorScheme: MyColorScheme
         @Composable
         @ReadOnlyComposable
         get() = LocalColorScheme.current
+    val typography: MyTypography
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalTypography.current
 }
 
 @Composable
@@ -108,7 +114,10 @@ fun MovieStreamingTheme(
         mutableStateOf(if (isDarkTheme) DarkColorScheme else LightColorScheme)
     }
 
-    CompositionLocalProvider(LocalColorScheme provides colorScheme) {
+    CompositionLocalProvider(
+        LocalColorScheme provides colorScheme,
+        LocalTypography provides AppTypography
+    ) {
         MaterialTheme(content = content)
     }
 }
