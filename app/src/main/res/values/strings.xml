@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Movie Streaming</string>
 
-
     <string name="welcome_title_1">Bem-vindo</string>
     <string name="welcome_description_1">
         O melhor aplicativo de streaming de filmes do século para tornar seus dias incríveis!
@@ -17,16 +16,137 @@
         Curta seus conteúdos favoritos no celular, tablet ou TV, quando e onde quiser.
     </string>
     <string name="get_started">Começar</string>
-
     <string name="welcome">Bem-vindo!</string>
+
+
+    <!--    BottomAppBar-->
+    <string name="label_home_bottom_app_bar">Início</string>
+    <string name="label_search_bottom_app_bar">Pesquisar</string>
+    <string name="label_favorite_bottom_app_bar">Favoritos</string>
+    <string name="label_download_bottom_app_bar">Download</string>
+    <string name="label_account_bottom_app_bar">Conta</string>
+
+    <!--    Generic-->
+    <string name="error_generic">Ocorreu um erro, por favor tente novamente mais tarde.</string>
+    <string name="success_save_user_generic">Usuário salvo com sucesso.</string>
+
+    <!--    Invalid Input Error-->
+    <string name="error_first_name_invalid">Insira um nome válido</string>
+    <string name="error_surname_invalid">Insira um sobrenome válido</string>
+    <string name="error_phone_invalid">Insira um telefone válido</string>
+    <string name="error_genre_invalid">Insira um gênero válido</string>
+    <string name="error_country_invalid">Insira um país válido</string>
+
+    <!--    Firebase Authentication-->
+    <string name="email_in_use_firebase_authentication">Este e-mail já está em uso.</string>
+    <string name="strong_password_firebase_authentication">Insira uma senha mais forte.</string>
+    <string name="invalid_email_firebase_authentication">Insira um e-mail válido.</string>
+    <string name="invalid_password_firebase_authentication">Senha inválida, tente novamente.</string>
+    <string name="user_not_found_firebase_authentication">Usuário não encontrado.</string>
+    <string name="account_not_firebase_authentication">A credencial de autenticação fornecida está incorreta, malformada ou expirou.</string>
+
+    <!--    AuthenticationScreen-->
     <string name="label_title_authentication_screen">Entrar com</string>
     <string name="label_sign_with_facebook_authentication_screen">Continuar com Facebook</string>
     <string name="label_sign_with_google_authentication_screen">Continuar com Google</string>
     <string name="label_sign_with_github_authentication_screen">Continuar com Github</string>
     <string name="label_or_authentication_screen">ou</string>
-    <string name="label_or_continue_with_authentication_screen">ou continue com</string>
     <string name="label_sign_with_password_authentication_screen">Entrar com senha</string>
     <string name="label_sign_up_account_authentication_screen">Não tem uma conta?</string>
     <string name="label_sign_up_authentication_screen">Criar conta</string>
+
+    <!--    SignupScreen-->
+    <string name="label_title_signup_screen">Crie sua conta</string>
+    <string name="label_input_email_signup_screen">Email</string>
+    <string name="label_input_password_signup_screen">Senha</string>
+    <string name="label_button_signup_screen">Criar conta</string>
+    <string name="label_or_signup_screen">ou continue com</string>
+    <string name="label_sign_in_account_signup_screen">Já tem uma conta?</string>
+    <string name="label_sign_in_signup_screen">Entrar</string>
+
+    <!--    LoginScreen-->
+    <string name="label_title_login_screen">Faça login na sua conta</string>
+    <string name="label_input_email_login_screen">Email</string>
+    <string name="label_input_password_login_screen">Senha</string>
+    <string name="label_button_login_screen">Entrar</string>
+    <string name="label_forgot_password_login_screen">Esqueceu a senha?</string>
+    <string name="label_or_login_screen">ou continue com</string>
+    <string name="label_sign_up_account_login_screen">Não tem uma conta?</string>
+    <string name="label_sign_up_login_screen">Criar conta</string>
+
+    <!--    AccountScreen-->
+    <string name="label_edit_account_screen">Editar perfil</string>
+    <string name="label_notification_account_screen">Notificações</string>
+    <string name="label_download_account_screen">Download</string>
+    <string name="label_security_account_screen">Segurança</string>
+    <string name="label_language_account_screen">Idioma</string>
+    <string name="label_theme_mode_account_screen">Modo noturno</string>
+    <string name="label_help_center_account_screen">Central de ajuda</string>
+    <string name="label_privacy_policy_account_screen">Política de privacidade</string>
+    <string name="label_logout_account_screen">Sair</string>
+
+    <!--    EditProfileScreen-->
+    <string name="label_title_edit_profile_screen">Editar perfil</string>
+    <string name="label_input_first_name_edit_profile_screen">Nome</string>
+    <string name="label_input_surname_edit_profile_screen">Sobrenome</string>
+    <string name="label_input_email_edit_profile_screen">E-mail</string>
+    <string name="label_input_phone_edit_profile_screen">Telefone</string>
+    <string name="label_input_genre_edit_profile_screen">Gênero</string>
+    <string name="label_input_country_edit_profile_screen">País</string>
+    <string name="label_button_update_edit_profile_screen">Atualizar</string>
+
+    <!--    GenreScreen-->
+    <string name="label_title_genre_screen">Seu gênero</string>
+    <string name="label_button_select_genre_screen">Selecionar</string>
+
+    <!--    CountryScreen-->
+    <string name="label_title_country_screen">Seu país</string>
+    <string name="label_search_placeholder_country_screen">Ex: Brasil</string>
+    <string name="label_placeholder_country_screen">Ex: Brasil</string>
+    <string name="label_button_select_country_screen">Selecionar</string>
+
+    <!--    BottomSheetLogout-->
+    <string name="label_title_bottom_sheet_logout">Sair</string>
+    <string name="label_message_bottom_sheet_logout">Tem certeza de que deseja sair?</string>
+    <string name="label_cancel_button_bottom_sheet_logout">Cancelar</string>
+    <string name="label_confirm_button_bottom_sheet_logout">Sim, sair</string>
+
+    <!--    SelectImageBottomSheet-->
+    <string name="label_title_select_image_bottom_sheet">Selecione uma imagem</string>
+    <string name="label_camera_select_image_bottom_sheet">Câmera</string>
+    <string name="label_gallery_select_image_bottom_sheet">Galeria</string>
+    <string name="label_cancel_select_image_bottom_sheet">Cancelar</string>
+
+    <!--    PermissionDeniedBottomSheet-->
+    <string name="label_title_bottom_sheet_permission_denied">Permissão negada</string>
+    <string name="label_message_bottom_sheet_permission_denied">Você negou a permissão. Você pode habilitá-la em configurações.</string>
+    <string name="label_cancel_button_bottom_sheet_permission_denied">Cancelar</string>
+    <string name="label_confirm_button_bottom_sheet_permission_denied">Configurações</string>
+
+    <!--    MovieDetailsScreen-->
+    <string name="label_play_movie_details_screen">Play</string>
+    <string name="label_download_movie_details_screen">Download</string>
+    <string name="label_genres_movie_details_screen">Gêneros: %1$s</string>
+    <string name="label_trailers_tab_movie_details_screen">Trailers</string>
+    <string name="label_similar_tab_movie_details_screen">Similares</string>
+    <string name="label_comments_tab_movie_details_screen">Comentários</string>
+
+    <!--    SearchScreen-->
+    <string name="label_title_empty_state_search_screen">Nenhum resultado encontrado.</string>
+    <string name="label_message_empty_state_search_screen">Desculpe, a palavra-chave inserida não foi encontrada. Tente verificar novamente ou pesquise com outras palavras-chave.</string>
+
+    <!--    DialogDownloading-->
+    <string name="text_title_dialog_downloading">Download</string>
+    <string name="text_message_dialog_downloading">Download em andamento...\nAguarde ou oculte o processo</string>
+    <string name="text_hide_dialog_downloading">Esconder</string>
+    <string name="text_downloaded_size_dialog_downloading">%1$s / %2$s</string>
+    <string name="text_download_progress_dialog_downloading">%1$d%%</string>
+
+    <!--    DeleteMovieBottomSheet-->
+    <string name="label_title_bottom_sheet_delete_movie">Deletar</string>
+    <string name="label_message_bottom_sheet_delete_movie">Tem certeza de que deseja excluir este download de filme?</string>
+    <string name="label_cancel_button_bottom_sheet_delete_movie">Cancelar</string>
+    <string name="label_confirm_button_bottom_sheet_delete_movie">Sim, deletar</string>
+
 
 </resources>
