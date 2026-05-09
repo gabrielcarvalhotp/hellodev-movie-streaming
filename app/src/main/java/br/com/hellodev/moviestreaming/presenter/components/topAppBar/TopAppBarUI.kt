@@ -3,6 +3,7 @@ package br.com.hellodev.moviestreaming.presenter.components.topAppBar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -62,7 +63,8 @@ fun TopAppBarUI(
             navigationIconContentColor = MovieStreamingTheme.colorScheme.topAppBarColor,
             actionIconContentColor = MovieStreamingTheme.colorScheme.topAppBarColor,
             titleContentColor = MovieStreamingTheme.colorScheme.topAppBarColor
-        )
+        ),
+        windowInsets = WindowInsets(0, 0, 0, 0)
     )
 }
 
