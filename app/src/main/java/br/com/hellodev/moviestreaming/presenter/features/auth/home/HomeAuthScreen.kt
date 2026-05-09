@@ -29,6 +29,7 @@ import br.com.hellodev.moviestreaming.R
 import br.com.hellodev.moviestreaming.presenter.components.button.PrimaryButtonUI
 import br.com.hellodev.moviestreaming.presenter.components.button.SocialButtonUI
 import br.com.hellodev.moviestreaming.presenter.components.divider.HorizontalDividerWithTextUI
+import br.com.hellodev.moviestreaming.presenter.components.topAppBar.TopAppBarUI
 import br.com.hellodev.moviestreaming.presenter.theme.MovieStreamingTheme
 
 @Composable
@@ -41,6 +42,11 @@ fun HomeAuthContent() {
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
+        topBar = {
+            TopAppBarUI(
+                onBackPressed = { }
+            )
+        },
         containerColor = MovieStreamingTheme.colorScheme.primaryBackgroundColor,
 
     ) { innerPadding ->
@@ -49,7 +55,8 @@ fun HomeAuthContent() {
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(innerPadding)
-                .padding(24.dp),
+                .padding(start = 24.dp, end = 24.dp, bottom = 24.dp),
+            verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
@@ -62,7 +69,7 @@ fun HomeAuthContent() {
             Spacer(modifier = Modifier.height(24.dp))
 
             Text(
-                text = stringResource(id = R.string.label_title_authentication_screen),
+                text = stringResource(id = R.string.welcome),
                 style = MovieStreamingTheme.typography.title.copy(
                     color = MovieStreamingTheme.colorScheme.textColor
                 )
