@@ -1,13 +1,18 @@
 package br.com.hellodev.moviestreaming.features.signup.presentation
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import br.com.hellodev.moviestreaming.core.extentions.isValidEmail
 import br.com.hellodev.moviestreaming.core.input.InputType
+import br.com.hellodev.moviestreaming.features.signup.domain.usecases.SignupUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
-class SignupViewModel : ViewModel() {
+class SignupViewModel(
+    private val signupUseCase: SignupUseCase
+) : ViewModel() {
     private val _state = MutableStateFlow(SignupState())
     val state = _state.asStateFlow()
 
@@ -26,7 +31,9 @@ class SignupViewModel : ViewModel() {
             }
 
             is SignupAction.OnSignup -> {
-                onSignup()
+                viewModelScope.launch {
+                    onSignup()
+                }
             }
 
         }
@@ -50,8 +57,13 @@ class SignupViewModel : ViewModel() {
         }
     }
 
-    private fun onSignup() {
+    private suspend fun onSignup() {
         if (!validateInputValues()) return
+
+        signupUseCase(
+            email = _state.value.email,
+            password = _state.value.password
+        )
     }
 
     private fun validateInputValues(): Boolean {

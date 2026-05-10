@@ -46,13 +46,14 @@ import br.com.hellodev.moviestreaming.systemdesign.components.divider.Horizontal
 import br.com.hellodev.moviestreaming.systemdesign.components.textfield.TextFieldUI
 import br.com.hellodev.moviestreaming.systemdesign.components.topappbar.TopAppBarUI
 import br.com.hellodev.moviestreaming.systemdesign.theme.MovieStreamingTheme
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SignupScreen(
     modifier: Modifier = Modifier,
-    viewModel: SignupViewModel = viewModel(),
     onBackPressed: () -> Unit
 ) {
+    val viewModel = koinViewModel<SignupViewModel>()
     val state by viewModel.state.collectAsState()
 
     SignupContent(
