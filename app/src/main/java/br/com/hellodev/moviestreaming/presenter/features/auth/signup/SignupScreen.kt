@@ -38,6 +38,8 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.hellodev.moviestreaming.R
+import br.com.hellodev.moviestreaming.core.input.InputType
+import br.com.hellodev.moviestreaming.core.input.inputErrorMessage
 import br.com.hellodev.moviestreaming.presenter.components.button.PrimaryButtonUI
 import br.com.hellodev.moviestreaming.presenter.components.button.SocialButtonUI
 import br.com.hellodev.moviestreaming.presenter.components.divider.HorizontalDividerWithTextUI
@@ -109,6 +111,8 @@ fun SignupContent(
                 value = state.email,
                 label = stringResource(id = R.string.label_input_email_signup_screen),
                 placeholder = "example@gmail.com",
+                isError = state.invalidInputType == InputType.EMAIL,
+                error = stringResource(state.invalidInputType.inputErrorMessage()),
                 leadingIcon = {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_email),
@@ -132,6 +136,8 @@ fun SignupContent(
                 value = state.password,
                 label = stringResource(R.string.label_input_password_signup_screen),
                 placeholder = "********",
+                isError = state.invalidInputType == InputType.PASSWORD,
+                error = stringResource(state.invalidInputType.inputErrorMessage()),
                 leadingIcon = {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_lock_password),
@@ -179,7 +185,7 @@ fun SignupContent(
                 text = stringResource(id = R.string.label_button_signup_screen),
                 isLoading = false,
                 enabled = true,
-                onClick = { }
+                onClick = { onAction(SignupAction.OnSignup) }
             )
 
             Spacer(modifier = Modifier.height(24.dp))
