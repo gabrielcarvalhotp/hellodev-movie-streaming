@@ -75,7 +75,10 @@ fun TextFieldUI(
             Text(
                 text = it,
                 style = MovieStreamingTheme.typography.label.copy(
-                    color = MovieStreamingTheme.colorScheme.greyscale500Color
+                    color = if (isError)
+                        MovieStreamingTheme.colorScheme.defaultColor
+                    else
+                        MovieStreamingTheme.colorScheme.placeholderColor
                 )
             )
             Spacer(modifier = Modifier.height(2.dp))
@@ -96,7 +99,7 @@ fun TextFieldUI(
                         color = if (isError) {
                             MovieStreamingTheme.colorScheme.defaultColor
                         } else {
-                            MovieStreamingTheme.colorScheme.greyscale500Color
+                            MovieStreamingTheme.colorScheme.borderColor
                         },
                         shape = RoundedCornerShape(12.dp)
                     )
@@ -108,7 +111,7 @@ fun TextFieldUI(
                         style = TextStyle(
                             lineHeight = 19.6.sp,
                             fontFamily = UrbanistFamily,
-                            color = MovieStreamingTheme.colorScheme.greyscale500Color,
+                            color = MovieStreamingTheme.colorScheme.placeholderColor,
                             letterSpacing = 0.2.sp
                         )
                     )
@@ -245,6 +248,7 @@ private fun TextFieldUIPreview() {
                 value = textValue,
                 isError = true,
                 error = stringResource(R.string.error_first_name_invalid),
+                label = "Usuário",
                 placeholder = "Ex: Gabriel Oliveira",
                 leadingIcon = {
                     Icon(
