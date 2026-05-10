@@ -5,4 +5,5 @@ sealed class SignupAction {
     data class OnPasswordChanged(val value: String) : SignupAction()
     data object OnPasswordVisibilityChanged : SignupAction()
     data object OnSignup: SignupAction()
+    data object ClearFeedback: SignupAction()
 }

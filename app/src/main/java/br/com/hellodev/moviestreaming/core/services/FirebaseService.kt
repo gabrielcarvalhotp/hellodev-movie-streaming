@@ -1,0 +1,42 @@
+package br.com.hellodev.moviestreaming.core.services
+
+import br.com.hellodev.moviestreaming.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+
+object FirebaseService {
+    fun getAuth() = FirebaseAuth.getInstance()
+
+    fun isAuthenticated() = getAuth().currentUser != null
+
+    fun getDatabase() = FirebaseDatabase.getInstance().reference
+
+    fun getStorage() = FirebaseStorage.getInstance().reference
+
+    fun getUserId() = getAuth().currentUser?.uid ?: "UNAUTHENTICATED_USER"
+
+    fun validError(error: String?): Int {
+        return when {
+            error?.contains("The email address is already in use by another account") == true -> {
+                R.string.email_in_use_firebase_authentication
+            }
+
+            error?.contains("Password should be at least 6 characters") == true -> {
+                R.string.strong_password_firebase_authentication
+            }
+
+            error?.contains("The email address is badly formatted") == true -> {
+                R.string.invalid_email_firebase_authentication
+            }
+
+            error?.contains("The supplied auth credential is incorrect, malformed or has expired") == true -> {
+                R.string.account_not_firebase_authentication
+            }
+
+            else -> {
+                R.string.error_generic
+            }
+        }
+    }
+}
