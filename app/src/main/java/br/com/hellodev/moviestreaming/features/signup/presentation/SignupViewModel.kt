@@ -8,6 +8,8 @@ import br.com.hellodev.moviestreaming.core.extentions.isValidEmail
 import br.com.hellodev.moviestreaming.core.feedback.FeedbackType
 import br.com.hellodev.moviestreaming.core.input.InputType
 import br.com.hellodev.moviestreaming.core.services.FirebaseService
+import br.com.hellodev.moviestreaming.features.signup.domain.model.User
+import br.com.hellodev.moviestreaming.features.signup.domain.usecases.SaveUserUseCase
 import br.com.hellodev.moviestreaming.features.signup.domain.usecases.SignupUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +17,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SignupViewModel(
-    private val signupUseCase: SignupUseCase
+    private val signupUseCase: SignupUseCase,
+    private val saveUserUseCase: SaveUserUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(SignupState())
     val state = _state.asStateFlow()
@@ -73,6 +76,8 @@ class SignupViewModel(
                     email = _state.value.email,
                     password = _state.value.password
                 )
+
+                saveUserUseCase(user = User(email = _state.value.email))
 
                 sendFeedback(FeedbackType.SUCCESS, R.string.user_created_with_success)
             } catch (e: Exception) {
