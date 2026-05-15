@@ -1,4 +1,4 @@
-package br.com.hellodev.moviestreaming.ui.signup
+package br.com.hellodev.moviestreaming.ui.features.signup
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -61,7 +61,8 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun SignUpScreen(
     modifier: Modifier = Modifier,
-    onBackPressed: () -> Unit
+    onBackPressed: () -> Unit,
+    navigateToSignInScreen: () -> Unit,
 ) {
     val viewModel = koinViewModel<SignUpViewModel>()
     val state by viewModel.state.collectAsState()
@@ -70,7 +71,8 @@ fun SignUpScreen(
         state = state,
         onAction = viewModel::onAction,
         onBackPressed = onBackPressed,
-        modifier = modifier
+        modifier = modifier,
+        navigateToSignInScreen = navigateToSignInScreen
     )
 }
 
@@ -81,6 +83,7 @@ fun SignUpContent(
     state: SignUpState,
     onAction: (SignUpAction) -> Unit,
     onBackPressed: () -> Unit,
+    navigateToSignInScreen: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -296,7 +299,7 @@ fun SignUpContent(
                         .clickable(
                             indication = null,
                             interactionSource = remember { MutableInteractionSource() }
-                        ) { },
+                        ) { navigateToSignInScreen() },
                     style = MovieStreamingTheme.typography.label.copy(
                         color = MovieStreamingTheme.colorScheme.defaultColor,
                         fontWeight = FontWeight.Bold,
@@ -314,7 +317,8 @@ private fun SignupPreview() {
         SignUpContent(
             state = SignUpState(),
             onAction = { },
-            onBackPressed = { }
+            onBackPressed = { },
+            navigateToSignInScreen = { }
         )
     }
 }

@@ -1,4 +1,4 @@
-package br.com.hellodev.moviestreaming.ui.signup
+package br.com.hellodev.moviestreaming.ui.features.signup
 
 sealed class SignUpAction {
     data class OnEmailChanged(val value: String) : SignUpAction()

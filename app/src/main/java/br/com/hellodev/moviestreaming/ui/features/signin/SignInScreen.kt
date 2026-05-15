@@ -1,4 +1,4 @@
-package br.com.hellodev.moviestreaming.ui.signin
+package br.com.hellodev.moviestreaming.ui.features.signin
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -61,6 +61,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun SignInScreen(
     onBackPressed: () -> Unit,
+    navigateToSignUpScreen: () -> Unit,
     viewModel: SignInViewModel = koinViewModel<SignInViewModel>()
 ) {
     val state by viewModel.state.collectAsState()
@@ -69,6 +70,7 @@ fun SignInScreen(
         state = state,
         onAction = viewModel::onAction,
         onBackPressed = onBackPressed,
+        navigateToSignUpScreen = navigateToSignUpScreen
     )
 }
 @OptIn(ExperimentalMaterial3Api::class)
@@ -78,7 +80,8 @@ fun SignInContent(
     state: SignInState,
     modifier: Modifier = Modifier,
     onAction: (SignInAction) -> Unit,
-    onBackPressed: () -> Unit
+    onBackPressed: () -> Unit,
+    navigateToSignUpScreen: () -> Unit,
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -293,7 +296,7 @@ fun SignInContent(
                         .clickable(
                             indication = null,
                             interactionSource = remember { MutableInteractionSource() }
-                        ) { },
+                        ) { navigateToSignUpScreen()  },
                     style = MovieStreamingTheme.typography.label.copy(
                         color = MovieStreamingTheme.colorScheme.defaultColor,
                         fontWeight = FontWeight.Bold,
@@ -311,7 +314,8 @@ private fun SignInPreview() {
         SignInContent(
             state = SignInState(),
             onAction = {},
-            onBackPressed = {}
+            onBackPressed = {},
+            navigateToSignUpScreen = { }
         )
     }
 }

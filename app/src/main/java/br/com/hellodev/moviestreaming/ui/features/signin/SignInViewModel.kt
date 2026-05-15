@@ -1,4 +1,4 @@
-package br.com.hellodev.moviestreaming.ui.signup
+package br.com.hellodev.moviestreaming.ui.features.signin
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,40 +7,53 @@ import br.com.hellodev.moviestreaming.core.extentions.isValidEmail
 import br.com.hellodev.moviestreaming.core.feedback.FeedbackType
 import br.com.hellodev.moviestreaming.core.input.InputType
 import br.com.hellodev.moviestreaming.core.services.FirebaseService
-import br.com.hellodev.moviestreaming.domain.models.User
-import br.com.hellodev.moviestreaming.domain.usecases.SaveUserUseCase
-import br.com.hellodev.moviestreaming.domain.usecases.SignUpUseCase
+import br.com.hellodev.moviestreaming.domain.usecases.SignInUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class SignUpViewModel(
-    private val signUpUseCase: SignUpUseCase,
-    private val saveUserUseCase: SaveUserUseCase
+class SignInViewModel(
+    private val signInUseCase: SignInUseCase
 ) : ViewModel() {
-    private val _state = MutableStateFlow(SignUpState())
-    val state = _state.asStateFlow()
 
-    fun onAction(action: SignUpAction) {
+    private var hasLoadedInitialData = false
+
+    private val _state = MutableStateFlow(SignInState())
+    val state = _state
+        .onStart {
+            if (!hasLoadedInitialData) {
+                /** Load initial data here **/
+                hasLoadedInitialData = true
+            }
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Companion.WhileSubscribed(5_000L),
+            initialValue = SignInState()
+        )
+
+    fun onAction(action: SignInAction) {
         when (action) {
-            is SignUpAction.OnEmailChanged -> {
+            is SignInAction.OnEmailChanged -> {
                 onEmailChanged(value = action.value)
             }
 
-            is SignUpAction.OnPasswordChanged -> {
+            is SignInAction.OnPasswordChanged -> {
                 onPasswordChanged(value = action.value)
             }
 
-            is SignUpAction.OnPasswordVisibilityChanged -> {
+            is SignInAction.OnPasswordVisibilityChanged -> {
                 onPasswordVisibilityChanged()
             }
 
-            is SignUpAction.OnSignup -> {
-                onSignup()
+            is SignInAction.OnSignIn -> {
+                onSignIn()
             }
 
-            SignUpAction.ClearFeedback -> {
+            SignInAction.ClearFeedback -> {
                 clearFeedback()
             }
         }
@@ -64,19 +77,17 @@ class SignUpViewModel(
         }
     }
 
-    private fun onSignup() {
+    private fun onSignIn() {
         if (!validateInputValues()) return
 
         viewModelScope.launch {
             _state.update { currentState -> currentState.copy(isLoading = true) }
 
             try {
-                signUpUseCase(
+                signInUseCase(
                     email = _state.value.email,
                     password = _state.value.password
                 )
-
-                saveUserUseCase(user = User(email = _state.value.email))
 
                 sendFeedback(FeedbackType.SUCCESS, R.string.user_created_with_success)
             } catch (e: Exception) {

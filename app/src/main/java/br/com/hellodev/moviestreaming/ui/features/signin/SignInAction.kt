@@ -1,4 +1,4 @@
-package br.com.hellodev.moviestreaming.ui.signin
+package br.com.hellodev.moviestreaming.ui.features.signin
 
 sealed interface SignInAction {
     data class OnEmailChanged(val value: String) : SignInAction

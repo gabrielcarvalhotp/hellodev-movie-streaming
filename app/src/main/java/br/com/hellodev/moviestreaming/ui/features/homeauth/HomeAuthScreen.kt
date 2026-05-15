@@ -1,4 +1,4 @@
-package br.com.hellodev.moviestreaming.ui.homeauth
+package br.com.hellodev.moviestreaming.ui.features.homeauth
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -29,24 +29,27 @@ import br.com.hellodev.moviestreaming.R
 import br.com.hellodev.moviestreaming.systemdesign.components.button.PrimaryButtonUI
 import br.com.hellodev.moviestreaming.systemdesign.components.button.SocialButtonUI
 import br.com.hellodev.moviestreaming.systemdesign.components.divider.HorizontalDividerWithTextUI
-import br.com.hellodev.moviestreaming.systemdesign.components.topappbar.TopAppBarUI
 import br.com.hellodev.moviestreaming.systemdesign.theme.MovieStreamingTheme
 
 @Composable
-fun HomeAuthScreen() {
-    HomeAuthContent()
+fun HomeAuthScreen(
+    navigateToSignInScreen: () -> Unit,
+    navigateToSignUpScreen: () -> Unit,
+) {
+    HomeAuthContent(
+        navigateToSignInScreen,
+        navigateToSignUpScreen
+    )
 }
 
 @Composable
-fun HomeAuthContent() {
+fun HomeAuthContent(
+    navigateToSignInScreen: () -> Unit,
+    navigateToSignUpScreen: () -> Unit,
+) {
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
-        topBar = {
-            TopAppBarUI(
-                onBackPressed = { }
-            )
-        },
         containerColor = MovieStreamingTheme.colorScheme.primaryBackgroundColor,
 
     ) { innerPadding ->
@@ -112,7 +115,7 @@ fun HomeAuthContent() {
 
             PrimaryButtonUI(
                 text = stringResource(R.string.label_sign_with_password_authentication_screen),
-                onClick = { }
+                onClick = { navigateToSignInScreen() }
             )
 
             Row(
@@ -124,6 +127,8 @@ fun HomeAuthContent() {
             ) {
                 Text(
                     text = stringResource(id = R.string.label_sign_up_account_authentication_screen),
+                    modifier = Modifier
+                        .clickable { navigateToSignUpScreen() },
                     style = MovieStreamingTheme.typography.label.copy(
                         color = MovieStreamingTheme.colorScheme.textColor
                     )
@@ -137,7 +142,7 @@ fun HomeAuthContent() {
                         .clickable(
                             indication = null,
                             interactionSource = remember { MutableInteractionSource() }
-                        ) {  },
+                        ) {  navigateToSignUpScreen() },
                     style = MovieStreamingTheme.typography.label.copy(
                         color = MovieStreamingTheme.colorScheme.defaultColor,
                         fontWeight = FontWeight.Bold,
@@ -153,6 +158,9 @@ fun HomeAuthContent() {
 @Composable
 private fun HomeAuthScreenPreview() {
     MovieStreamingTheme{
-        HomeAuthContent()
+        HomeAuthContent(
+            navigateToSignInScreen = { },
+            navigateToSignUpScreen = { }
+        )
     }
 }

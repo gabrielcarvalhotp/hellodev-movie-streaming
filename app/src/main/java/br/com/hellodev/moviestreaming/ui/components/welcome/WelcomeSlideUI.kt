@@ -1,4 +1,4 @@
-package br.com.hellodev.moviestreaming.ui.welcome
+package br.com.hellodev.moviestreaming.ui.components.welcome
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement

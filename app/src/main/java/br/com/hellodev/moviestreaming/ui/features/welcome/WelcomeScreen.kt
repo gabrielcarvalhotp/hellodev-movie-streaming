@@ -1,4 +1,4 @@
-package br.com.hellodev.moviestreaming.ui.welcome
+package br.com.hellodev.moviestreaming.ui.features.welcome
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,14 +21,19 @@ import androidx.compose.ui.unit.dp
 import br.com.hellodev.moviestreaming.R
 import br.com.hellodev.moviestreaming.systemdesign.components.button.PrimaryButtonUI
 import br.com.hellodev.moviestreaming.systemdesign.theme.MovieStreamingTheme
+import br.com.hellodev.moviestreaming.ui.components.welcome.WelcomeSlideUI
 
 @Composable
-fun WelcomeScreen() {
-    WelcomeContent()
+fun WelcomeScreen(
+    navigateToHomeAuthScreen: () -> Unit
+) {
+    WelcomeContent(
+        navigateToHomeAuthScreen = navigateToHomeAuthScreen
+    )
 }
 
 @Composable
-fun WelcomeContent() {
+fun WelcomeContent(navigateToHomeAuthScreen: () -> Unit) {
     val slideItems = listOf(
         Pair(
             first = stringResource(R.string.welcome_title_1),
@@ -84,7 +89,7 @@ fun WelcomeContent() {
 
                     PrimaryButtonUI(
                         text = stringResource(R.string.get_started),
-                        onClick = { },
+                        onClick = { navigateToHomeAuthScreen() },
                         modifier = Modifier
                             .padding(horizontal = 16.dp)
                     )
@@ -98,6 +103,8 @@ fun WelcomeContent() {
 @Composable
 private fun WelcomePreview() {
     MovieStreamingTheme {
-        WelcomeContent()
+        WelcomeContent(
+            navigateToHomeAuthScreen = {  }
+        )
     }
 }
