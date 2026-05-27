@@ -1,14 +1,17 @@
-package br.com.hellodev.moviestreaming.ui.features.signin
+package br.com.hellodev.moviestreaming.ui.features.auth
 
 import br.com.hellodev.moviestreaming.core.feedback.FeedbackType
 import br.com.hellodev.moviestreaming.core.input.InputType
 
-data class SignInState(
+data class AuthState(
     val isLoading: Boolean = false,
-    val invalidInputType: InputType? = null,
     val hasFeedback: Boolean = false,
     val feedbackUI: Pair<FeedbackType, Int>? = null,
+
     val email: String = "",
+    val emailError: Int? = null,
     val password: String = "",
+    val passwordError: Int? = null,
     val passwordVisibility: Boolean = false,
+    val isAuthenticated: Boolean = false,
 )

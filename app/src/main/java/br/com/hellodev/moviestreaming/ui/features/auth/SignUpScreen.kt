@@ -1,4 +1,4 @@
-package br.com.hellodev.moviestreaming.ui.features.signin
+package br.com.hellodev.moviestreaming.ui.features.auth
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -28,10 +28,8 @@ import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.tooling.preview.Preview
-import org.koin.androidx.compose.koinViewModel
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -45,6 +43,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import br.com.hellodev.moviestreaming.R
 import br.com.hellodev.moviestreaming.core.input.InputType
@@ -57,31 +56,38 @@ import br.com.hellodev.moviestreaming.systemdesign.components.textfield.TextFiel
 import br.com.hellodev.moviestreaming.systemdesign.components.topappbar.TopAppBarUI
 import br.com.hellodev.moviestreaming.systemdesign.theme.MovieStreamingTheme
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun SignInScreen(
+fun SignUpScreen(
+    modifier: Modifier = Modifier,
     onBackPressed: () -> Unit,
-    navigateToSignUpScreen: () -> Unit,
-    viewModel: SignInViewModel = koinViewModel<SignInViewModel>()
+    navigateToSignInScreen: () -> Unit,
+    navigateToHomeScreen: () -> Unit
 ) {
+    val viewModel = koinViewModel<AuthViewModel>()
     val state by viewModel.state.collectAsState()
 
-    SignInContent(
+    SignUpContent(
         state = state,
         onAction = viewModel::onAction,
         onBackPressed = onBackPressed,
-        navigateToSignUpScreen = navigateToSignUpScreen
+        modifier = modifier,
+        navigateToSignInScreen = navigateToSignInScreen,
+        navigateToHomeScreen = navigateToHomeScreen
     )
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("LocalContextGetResourceValueCall")
 @Composable
-fun SignInContent(
-    state: SignInState,
-    modifier: Modifier = Modifier,
-    onAction: (SignInAction) -> Unit,
+fun SignUpContent(
+    state: AuthState,
+    onAction: (AuthAction) -> Unit,
     onBackPressed: () -> Unit,
-    navigateToSignUpScreen: () -> Unit,
+    navigateToSignInScreen: () -> Unit,
+    navigateToHomeScreen: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -99,9 +105,15 @@ fun SignInContent(
                     )
 
                 if (result == SnackbarResult.Dismissed) {
-                    onAction(SignInAction.ClearFeedback)
+                    onAction(AuthAction.ClearFeedback)
                 }
             }
+        }
+    }
+
+    LaunchedEffect(state.isAuthenticated) {
+        if (state.isAuthenticated) {
+            navigateToHomeScreen()
         }
     }
 
@@ -146,7 +158,7 @@ fun SignInContent(
             Spacer(modifier = Modifier.height(24.dp))
 
             Text(
-                text = stringResource(R.string.label_title_signin_screen),
+                text = stringResource(R.string.label_title_signup_screen),
                 style = MovieStreamingTheme.typography.title.copy(
                     color = MovieStreamingTheme.colorScheme.textColor
                 )
@@ -157,10 +169,10 @@ fun SignInContent(
             TextFieldUI(
                 modifier = Modifier,
                 value = state.email,
-                label = stringResource(id = R.string.label_input_email_signin_screen),
+                label = stringResource(id = R.string.label_input_email_signup_screen),
                 placeholder = "example@gmail.com",
-                isError = state.invalidInputType == InputType.EMAIL,
-                error = stringResource(state.invalidInputType.inputErrorMessage()),
+                isError = state.emailError != null,
+                error = stringResource(state.emailError ?: R.string.error_generic),
                 leadingIcon = {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_email),
@@ -173,7 +185,7 @@ fun SignInContent(
                     imeAction = ImeAction.Next
                 ),
                 onValueChange = {
-                    onAction(SignInAction.OnEmailChanged(it))
+                    onAction(AuthAction.OnEmailChanged(it))
                 }
             )
 
@@ -182,10 +194,10 @@ fun SignInContent(
             TextFieldUI(
                 modifier = Modifier,
                 value = state.password,
-                label = stringResource(R.string.label_input_password_signin_screen),
+                label = stringResource(R.string.label_input_password_signup_screen),
                 placeholder = "********",
-                isError = state.invalidInputType == InputType.PASSWORD,
-                error = stringResource(state.invalidInputType.inputErrorMessage()),
+                isError = state.passwordError != null,
+                error = stringResource(state.passwordError ?: R.string.error_generic),
                 leadingIcon = {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_lock_password),
@@ -197,7 +209,7 @@ fun SignInContent(
                     if (state.password.isNotEmpty()) {
                         IconButton(
                             onClick = {
-                                onAction(SignInAction.OnPasswordVisibilityChanged)
+                                onAction(AuthAction.OnPasswordVisibilityChanged)
                             },
                             content = {
                                 Icon(
@@ -223,23 +235,23 @@ fun SignInContent(
                     PasswordVisualTransformation()
                 },
                 onValueChange = {
-                    onAction(SignInAction.OnPasswordChanged(value = it))
+                    onAction(AuthAction.OnPasswordChanged(value = it))
                 }
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             PrimaryButtonUI(
-                text = stringResource(id = R.string.label_button_signin_screen),
+                text = stringResource(id = R.string.label_button_signup_screen),
                 isLoading = state.isLoading,
                 enabled = true,
-                onClick = { onAction(SignInAction.OnSignIn) }
+                onClick = { onAction(AuthAction.OnSignUp) }
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             HorizontalDividerWithTextUI(
-                text = stringResource(id = R.string.label_or_signin_screen)
+                text = stringResource(id = R.string.label_or_signup_screen)
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -282,7 +294,7 @@ fun SignInContent(
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = stringResource(id = R.string.label_sign_up_account_signin_screen),
+                    text = stringResource(id = R.string.label_sign_in_account_signup_screen),
                     style = MovieStreamingTheme.typography.label.copy(
                         color = MovieStreamingTheme.colorScheme.textColor
                     )
@@ -291,12 +303,12 @@ fun SignInContent(
                 Spacer(modifier = Modifier.width(8.dp))
 
                 Text(
-                    text = stringResource(id = R.string.label_sign_up_signin_screen),
+                    text = stringResource(id = R.string.label_sign_in_signup_screen),
                     modifier = Modifier
                         .clickable(
                             indication = null,
                             interactionSource = remember { MutableInteractionSource() }
-                        ) { navigateToSignUpScreen()  },
+                        ) { navigateToSignInScreen() },
                     style = MovieStreamingTheme.typography.label.copy(
                         color = MovieStreamingTheme.colorScheme.defaultColor,
                         fontWeight = FontWeight.Bold,
@@ -307,15 +319,16 @@ fun SignInContent(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
-private fun SignInPreview() {
+private fun SignupPreview() {
     MovieStreamingTheme {
-        SignInContent(
-            state = SignInState(),
-            onAction = {},
-            onBackPressed = {},
-            navigateToSignUpScreen = { }
+        SignUpContent(
+            state = AuthState(),
+            onAction = { },
+            onBackPressed = { },
+            navigateToSignInScreen = { },
+            navigateToHomeScreen = { }
         )
     }
 }

@@ -1,15 +1,14 @@
-package br.com.hellodev.moviestreaming.navigation.hosts
+package br.com.hellodev.moviestreaming.ui.navigation.hosts
 
-import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import br.com.hellodev.moviestreaming.navigation.routes.AuthRoutes
-import br.com.hellodev.moviestreaming.ui.features.homeauth.HomeAuthScreen
-import br.com.hellodev.moviestreaming.ui.features.signin.SignInScreen
-import br.com.hellodev.moviestreaming.ui.features.signup.SignUpScreen
+import br.com.hellodev.moviestreaming.ui.navigation.routes.AuthRoutes
+import br.com.hellodev.moviestreaming.ui.features.auth.HomeAuthScreen
+import br.com.hellodev.moviestreaming.ui.features.auth.SignInScreen
+import br.com.hellodev.moviestreaming.ui.features.auth.SignUpScreen
+import br.com.hellodev.moviestreaming.ui.navigation.routes.AppRoutes
 
 fun NavGraphBuilder.authNavHost(navHostController: NavHostController) {
     navigation<AuthRoutes.Graph>(
@@ -35,6 +34,11 @@ fun NavGraphBuilder.authNavHost(navHostController: NavHostController) {
                         popUpTo(AuthRoutes.SignIn) { inclusive = true }
                     }
                 },
+                navigateToHomeScreen = {
+                    navHostController.navigate(AppRoutes.Home){
+                        popUpTo(AuthRoutes.Graph) { inclusive = true }
+                    }
+                }
             )
         }
         composable<AuthRoutes.SignUp> {
@@ -47,6 +51,11 @@ fun NavGraphBuilder.authNavHost(navHostController: NavHostController) {
                         popUpTo(AuthRoutes.SignUp) { inclusive = true }
                     }
                 },
+                navigateToHomeScreen = {
+                    navHostController.navigate(AppRoutes.Home){
+                        popUpTo(AuthRoutes.Graph) { inclusive = true }
+                    }
+                }
             )
         }
     }

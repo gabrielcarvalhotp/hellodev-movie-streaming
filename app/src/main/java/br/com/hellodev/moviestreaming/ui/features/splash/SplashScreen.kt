@@ -8,6 +8,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import org.koin.androidx.compose.koinViewModel
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,16 +24,35 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SplashScreen(
-    navigateToWelcomeScreen: () -> Unit
+    viewModel: SplashViewModel = koinViewModel<SplashViewModel>(),
+    navigateToAppScreen: () -> Unit,
+    navigateToWelcomeScreen: () -> Unit,
+    navigateToHomeAuthScreen: () -> Unit,
 ) {
+    val state by viewModel.state.collectAsState()
     val scope = rememberCoroutineScope()
+
+    LaunchedEffect(state.isLoading) {
+        if (!state.isLoading) {
+            if (state.isWelcomeVisited) {
+                if (state.isAuthenticated) {
+                    navigateToAppScreen()
+                } else {
+                    navigateToHomeAuthScreen()
+                }
+            } else {
+                navigateToWelcomeScreen()
+            }
+        }
+    }
 
     LaunchedEffect(true) {
         scope.launch {
-            delay(4000)
-            navigateToWelcomeScreen()
+            delay(3000)
+            viewModel.onAction(action = SplashAction.OnNextScreen)
         }
     }
+
     SplashContent()
 }
 

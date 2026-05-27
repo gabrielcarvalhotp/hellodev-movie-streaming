@@ -1,4 +1,4 @@
-package br.com.hellodev.moviestreaming.ui.features.homeauth
+package br.com.hellodev.moviestreaming.ui.features.auth
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

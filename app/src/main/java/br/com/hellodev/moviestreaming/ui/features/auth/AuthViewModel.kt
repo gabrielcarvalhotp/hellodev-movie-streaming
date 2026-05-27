@@ -1,4 +1,4 @@
-package br.com.hellodev.moviestreaming.ui.features.signin
+package br.com.hellodev.moviestreaming.ui.features.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,7 +7,10 @@ import br.com.hellodev.moviestreaming.core.extentions.isValidEmail
 import br.com.hellodev.moviestreaming.core.feedback.FeedbackType
 import br.com.hellodev.moviestreaming.core.input.InputType
 import br.com.hellodev.moviestreaming.core.services.FirebaseService
+import br.com.hellodev.moviestreaming.domain.models.User
+import br.com.hellodev.moviestreaming.domain.usecases.SaveUserUseCase
 import br.com.hellodev.moviestreaming.domain.usecases.SignInUseCase
+import br.com.hellodev.moviestreaming.domain.usecases.SignUpUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onStart
@@ -15,13 +18,15 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class SignInViewModel(
-    private val signInUseCase: SignInUseCase
+class AuthViewModel(
+    private val signInUseCase: SignInUseCase,
+    private val signUpUseCase: SignUpUseCase,
+    private val saveUserUseCase: SaveUserUseCase
 ) : ViewModel() {
 
     private var hasLoadedInitialData = false
 
-    private val _state = MutableStateFlow(SignInState())
+    private val _state = MutableStateFlow(AuthState())
     val state = _state
         .onStart {
             if (!hasLoadedInitialData) {
@@ -32,28 +37,32 @@ class SignInViewModel(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.Companion.WhileSubscribed(5_000L),
-            initialValue = SignInState()
+            initialValue = AuthState()
         )
 
-    fun onAction(action: SignInAction) {
+    fun onAction(action: AuthAction) {
         when (action) {
-            is SignInAction.OnEmailChanged -> {
+            is AuthAction.OnEmailChanged -> {
                 onEmailChanged(value = action.value)
             }
 
-            is SignInAction.OnPasswordChanged -> {
+            is AuthAction.OnPasswordChanged -> {
                 onPasswordChanged(value = action.value)
             }
 
-            is SignInAction.OnPasswordVisibilityChanged -> {
+            is AuthAction.OnPasswordVisibilityChanged -> {
                 onPasswordVisibilityChanged()
             }
 
-            is SignInAction.OnSignIn -> {
+            is AuthAction.OnSignIn -> {
                 onSignIn()
             }
 
-            SignInAction.ClearFeedback -> {
+            is AuthAction.OnSignUp -> {
+                onSignUp()
+            }
+
+            AuthAction.ClearFeedback -> {
                 clearFeedback()
             }
         }
@@ -61,13 +70,13 @@ class SignInViewModel(
 
     private fun onEmailChanged(value: String) {
         _state.update { currentState ->
-            currentState.copy(email = value)
+            currentState.copy(email = value, emailError = null)
         }
     }
 
     private fun onPasswordChanged(value: String) {
         _state.update { currentState ->
-            currentState.copy(password = value)
+            currentState.copy(password = value, passwordError = null)
         }
     }
 
@@ -89,7 +98,32 @@ class SignInViewModel(
                     password = _state.value.password
                 )
 
+                sendFeedback(FeedbackType.SUCCESS, R.string.sign_in_with_success)
+                _state.update { currentState -> currentState.copy(isAuthenticated = true) }
+            } catch (e: Exception) {
+                sendFeedback(FeedbackType.ERROR, FirebaseService.validError(e.message))
+            } finally {
+                _state.update { currentState -> currentState.copy(isLoading = false) }
+            }
+        }
+    }
+
+    private fun onSignUp() {
+        if (!validateInputValues()) return
+
+        viewModelScope.launch {
+            _state.update { currentState -> currentState.copy(isLoading = true) }
+
+            try {
+                signUpUseCase(
+                    email = _state.value.email,
+                    password = _state.value.password
+                )
+
+                saveUserUseCase(user = User(email = _state.value.email))
+
                 sendFeedback(FeedbackType.SUCCESS, R.string.user_created_with_success)
+                _state.update { currentState -> currentState.copy(isAuthenticated = true) }
             } catch (e: Exception) {
                 sendFeedback(FeedbackType.ERROR, FirebaseService.validError(e.message))
             } finally {
@@ -99,32 +133,20 @@ class SignInViewModel(
     }
 
     private fun validateInputValues(): Boolean {
-        clearValidationInput()
-
-        val emailIsValid = _state.value.email.isValidEmail()
-        if (!emailIsValid) {
-            _state.update { currentState ->
-                currentState.copy(invalidInputType = InputType.EMAIL)
-            }
-            return false
-        }
-        val passwordIsValid = _state.value.password.isNotEmpty()
-        if (!passwordIsValid) {
-            _state.update { currentState ->
-                currentState.copy(invalidInputType = InputType.PASSWORD)
-            }
-            return false
-        }
-
-        return true
-    }
-
-    private fun clearValidationInput() {
+        var isValid = true
         _state.update { currentState ->
             currentState.copy(
-                invalidInputType = null
+                emailError = if (!currentState.email.isValidEmail()) {
+                    isValid = false
+                    R.string.error_email_invalid
+                } else null,
+                passwordError = if (!currentState.password.isNotEmpty()) {
+                    isValid = false
+                    R.string.error_password_invalid
+                } else null
             )
         }
+        return isValid
     }
 
     private fun sendFeedback(feedbackType: FeedbackType, message: Int) {

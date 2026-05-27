@@ -38,4 +38,8 @@ class AuthRepositoryImpl : AuthRepository {
                 }
         }
     }
+
+    override fun signOut() {
+        FirebaseService.getAuth().signOut()
+    }
 }
