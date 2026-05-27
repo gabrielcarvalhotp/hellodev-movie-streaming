@@ -153,5 +153,8 @@
     <string name="label_cancel_button_bottom_sheet_delete_movie">Cancelar</string>
     <string name="label_confirm_button_bottom_sheet_delete_movie">Sim, deletar</string>
 
+    <!--    SharedPreferences-->
+    <string name="preferences_file_name">br.com.hellodev.moviestreaming.SHARED_PREFERENCES</string>
+    <string name="preferences_welcome_visited">WELCOME_SCREEN_WAS_VISITED</string>
 
 </resources>
