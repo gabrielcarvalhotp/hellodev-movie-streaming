@@ -7,5 +7,6 @@ val appModules = module {
         repositoryModule,
         presenterModule,
         useCasesModule,
+        localModule,
     )
 }
